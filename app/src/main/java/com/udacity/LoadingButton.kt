@@ -16,8 +16,6 @@ class LoadingButton @JvmOverloads constructor(
     private var heightSize = 0
     private var text = "Download"
     private var progress = 0
-    private val loadingRect = Rect()
-
 
     private var valueAnimator = ValueAnimator.ofFloat()
 
@@ -27,15 +25,11 @@ class LoadingButton @JvmOverloads constructor(
         textSize = 50f
         typeface = Typeface.create("", Typeface.NORMAL)
         color = Color.WHITE
-//        setBackgroundColor(Color.WHITE)
 
     }
 
     private val paint2 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-//        textAlign = Paint.Align.LEFT
-//        textSize = 50f
-//        typeface = Typeface.create("", Typeface.NORMAL)
         color = resources.getColor(R.color.colorPrimary)
         setBackgroundColor(color)
 
@@ -43,9 +37,14 @@ class LoadingButton @JvmOverloads constructor(
 
     private val paint3 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-//        textAlign = Paint.Align.LEFT
         color = resources.getColor(R.color.colorPrimaryDark)
         setBackgroundColor(color)
+
+    }
+
+    private val paint4 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+        color = resources.getColor(R.color.colorAccent)
 
     }
 
@@ -79,12 +78,12 @@ class LoadingButton @JvmOverloads constructor(
 
     private fun scaler() {
 
-        valueAnimator = ValueAnimator.ofInt(0, 50000).apply {
+        valueAnimator = ValueAnimator.ofInt(0, 720).apply {
             addUpdateListener {
                 progress = animatedValue as Int
                 invalidate()
             }
-            duration = 50000
+            duration = 5000
             start()
 
 //        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.1f)
@@ -115,8 +114,8 @@ class LoadingButton @JvmOverloads constructor(
 
     fun updateButtonState(state: ButtonState) {
         buttonState = state
-    }
 
+    }
 //    val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 2f)
 //    val animator = ObjectAnimator.ofPropertyValuesHolder(custom_button, scaleX)
 
@@ -125,19 +124,24 @@ class LoadingButton @JvmOverloads constructor(
 //        buttonState = ButtonState.Clicked
 //    }
 
+
     override fun onDraw(canvas: Canvas?) {
-//        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 4f)
-//        var ani = canvas?.drawRect(0f, 0f,widthSize.toFloat() / 4,heightSize.toFloat(),paint3)
+
         super.onDraw(canvas)
         canvas?.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint2)
-//        canvas?.drawRect(loadingRect, paint2)
-//        canvas?.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint2)
 
-//        var rect = canvas?.drawRect(0f, 0f, 0f, heightSize.toFloat(), paint3)
-//        rect
-//        val animator2 = ObjectAnimator.ofPropertyValuesHolder(rect, scaleX)
         if (buttonState == ButtonState.Clicked) {
             canvas?.drawRect(0f, 0f, progress.toFloat() , heightSize.toFloat(), paint3)
+//            canvas?.drawCircle(widthSize - 125f, heightSize / 2f + 5, 25f, paint4)
+
+            canvas?.drawArc(widthSize - 145f,
+                heightSize / 2 - 35f,
+                widthSize - 75f,
+                heightSize / 2 + 35f,
+                0F,
+                progress / 1.75f,
+                true,
+                paint4)
         }
         canvas?.drawText(buttonState.text, widthSize / 2f, heightSize / 2f + 18, paint)
 
