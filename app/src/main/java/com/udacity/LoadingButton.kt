@@ -41,13 +41,13 @@ class LoadingButton @JvmOverloads constructor(
 
     }
 
-//    private val paint3 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-//        style = Paint.Style.FILL
+    private val paint3 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
 //        textAlign = Paint.Align.LEFT
-//        color = resources.getColor(R.color.colorPrimaryDark)
-//        setBackgroundColor(color)
-//
-//    }
+        color = resources.getColor(R.color.colorPrimaryDark)
+        setBackgroundColor(color)
+
+    }
 
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
         when (new) {
@@ -79,17 +79,26 @@ class LoadingButton @JvmOverloads constructor(
 
     private fun scaler() {
 
-        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.1f)
+        valueAnimator = ValueAnimator.ofInt(0, 50000).apply {
+            addUpdateListener {
+                progress = animatedValue as Int
+                invalidate()
+            }
+            duration = 50000
+            start()
 
-        val animator = ObjectAnimator.ofPropertyValuesHolder(
-            custom_button, scaleX
-        )
-        animator.duration = 5000
-        animator.repeatCount = 1
-        animator.repeatMode = ObjectAnimator.REVERSE
-        animator.disableViewDuringAnimation(custom_button)
-        animator.start()
+//        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.1f)
+//
+//        val animator = ObjectAnimator.ofPropertyValuesHolder(
+//            custom_button, scaleX
+//        )
+//        animator.duration = 5000
+//        animator.repeatCount = 1
+//        animator.repeatMode = ObjectAnimator.REVERSE
+//        animator.disableViewDuringAnimation(custom_button)
+//        animator.start()
 
+        }
     }
 
     private fun ObjectAnimator.disableViewDuringAnimation(view: View) {
@@ -123,13 +132,14 @@ class LoadingButton @JvmOverloads constructor(
         canvas?.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint2)
 //        canvas?.drawRect(loadingRect, paint2)
 //        canvas?.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint2)
-        canvas?.drawText(buttonState.text, widthSize / 2f, heightSize / 2f + 18, paint)
+
 //        var rect = canvas?.drawRect(0f, 0f, 0f, heightSize.toFloat(), paint3)
 //        rect
 //        val animator2 = ObjectAnimator.ofPropertyValuesHolder(rect, scaleX)
-//        if (buttonState == ButtonState.Clicked) {
-//            canvas?.drawRect(0f, 0f, widthSize.toFloat() , heightSize.toFloat(), paint3)
-//        }
+        if (buttonState == ButtonState.Clicked) {
+            canvas?.drawRect(0f, 0f, progress.toFloat() , heightSize.toFloat(), paint3)
+        }
+        canvas?.drawText(buttonState.text, widthSize / 2f, heightSize / 2f + 18, paint)
 
     }
 
