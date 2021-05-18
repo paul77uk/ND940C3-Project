@@ -9,6 +9,18 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="175dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_assistant_black_24dp" />
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
@@ -18,14 +30,14 @@
         app:layout_constraintBottom_toTopOf="@+id/custom_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <RadioButton
             android:id="@+id/radioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="RadioButton" />
+            android:text="@string/glideLibraryDownLoad" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -33,14 +45,14 @@
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
             android:paddingVertical="16dp"
-            android:text="RadioButton" />
+            android:text="@string/currentUdacityRepository" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="RadioButton" />
+            android:text="@string/retrofitLibrary" />
     </RadioGroup>
 
     <com.udacity.LoadingButton
