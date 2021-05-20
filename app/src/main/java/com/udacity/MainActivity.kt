@@ -1,9 +1,6 @@
 package com.udacity
 
-import android.app.DownloadManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -132,11 +129,11 @@ class MainActivity : AppCompatActivity() {
             contentIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-        // TODO: Step 2.0 add style
-        val eggImage = BitmapFactory.decodeResource(
-            applicationContext.resources,
-            R.drawable.ic_assistant_black_24dp
-        )
+//        // TODO: Step 2.0 add style
+//        val eggImage = BitmapFactory.decodeResource(
+//            applicationContext.resources,
+//            R.drawable.ic_assistant_black_24dp
+//        )
 
 //        val bigPicStyle = NotificationCompat.BigPictureStyle()
 //            .bigPicture(eggImage)
@@ -144,12 +141,17 @@ class MainActivity : AppCompatActivity() {
 
         // TODO: Step 2.2 add snooze action
         val snoozeIntent = Intent(applicationContext, DetailActivity::class.java)
-        val snoozePendingIntent: PendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            REQUEST_CODE,
-            snoozeIntent,
-            FLAGS
-        )
+        val snoozePendingIntent: PendingIntent = TaskStackBuilder.create(applicationContext).run {
+            addNextIntentWithParentStack(snoozeIntent)
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+//            PendingIntent.getBroadcast(
+//            applicationContext,
+//            REQUEST_CODE,
+//            snoozeIntent,
+//            FLAGS
+//        )
 
         // TODO: Step 1.2 get an instance of NotificationCompat.Builder
         // Build the notification
@@ -168,6 +170,7 @@ class MainActivity : AppCompatActivity() {
             // TODO: Step 1.13 set content intent
             .setContentIntent(contentPendingIntent)
             .setAutoCancel(true)
+//            .setContentIntent(snoozePendingIntent)
 
             // TODO: Step 2.1 add style to builder
 //            .setStyle(bigPicStyle)
