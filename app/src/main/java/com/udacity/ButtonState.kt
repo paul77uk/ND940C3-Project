@@ -2,7 +2,7 @@ package com.udacity
 
 
 sealed class ButtonState(var text: String) {
-    object Clicked : ButtonState("we are loading")
-    object Loading : ButtonState("Loading")
+    object Clicked : ButtonState("We are loading")
+    object Loading : ButtonState("We are loading")
     object Completed : ButtonState("Download")
 }

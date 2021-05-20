@@ -1,11 +1,16 @@
 package com.udacity
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
-import kotlinx.android.synthetic.main.content_main.view.*
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -56,24 +61,11 @@ class LoadingButton @JvmOverloads constructor(
             }
 
             ButtonState.Loading -> {
-////                valueAnimator = ValueAnimator.ofInt(0, 360).setDuration(2000).apply {
-////                    addUpdateListener {
-////                        progress = it.animatedValue as Int
-////                        invalidate()
-////                    }
-////                    repeatCount = ValueAnimator.INFINITE
-////                    repeatMode = ValueAnimator.RESTART
-////
-////                    start()
-//                }
-//                loadingRect.set(0, 0, width * progress / 360, height)
-
+                scaler()
             }
 
         }
     }
-
-//    val customButton = findViewById<Button>(R.id.custom_button)
 
 
     private fun scaler() {
@@ -83,21 +75,13 @@ class LoadingButton @JvmOverloads constructor(
                 progress = animatedValue as Int
                 invalidate()
             }
-            duration = 5000
+            duration = 3000
             start()
-
-//        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.1f)
-//
-//        val animator = ObjectAnimator.ofPropertyValuesHolder(
-//            custom_button, scaleX
-//        )
-//        animator.duration = 5000
-//        animator.repeatCount = 1
-//        animator.repeatMode = ObjectAnimator.REVERSE
-//        animator.disableViewDuringAnimation(custom_button)
-//        animator.start()
-
+            postDelayed({
+                updateButtonState(ButtonState.Completed)
+            }, duration)
         }
+
     }
 
     private fun ObjectAnimator.disableViewDuringAnimation(view: View) {
@@ -116,32 +100,26 @@ class LoadingButton @JvmOverloads constructor(
         buttonState = state
 
     }
-//    val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 2f)
-//    val animator = ObjectAnimator.ofPropertyValuesHolder(custom_button, scaleX)
-
-
-//    init {
-//        buttonState = ButtonState.Clicked
-//    }
-
 
     override fun onDraw(canvas: Canvas?) {
 
         super.onDraw(canvas)
         canvas?.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint2)
 
-        if (buttonState == ButtonState.Clicked) {
-            canvas?.drawRect(0f, 0f, progress.toFloat() , heightSize.toFloat(), paint3)
+        if (buttonState == ButtonState.Clicked || buttonState == ButtonState.Loading) {
+            canvas?.drawRect(0f, 0f, progress.toFloat(), heightSize.toFloat(), paint3)
 //            canvas?.drawCircle(widthSize - 125f, heightSize / 2f + 5, 25f, paint4)
 
-            canvas?.drawArc(widthSize - 145f,
+            canvas?.drawArc(
+                widthSize - 145f,
                 heightSize / 2 - 35f,
                 widthSize - 75f,
                 heightSize / 2 + 35f,
                 0F,
                 progress / 1.75f,
                 true,
-                paint4)
+                paint4
+            )
         }
         canvas?.drawText(buttonState.text, widthSize / 2f, heightSize / 2f + 18, paint)
 

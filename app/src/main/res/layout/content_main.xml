@@ -37,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="@string/glideLibraryDownLoad" />
+            android:text="@string/glideLibraryDownLoad"
+            android:textSize="@dimen/default_text_size" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -45,14 +46,16 @@
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
             android:paddingVertical="16dp"
-            android:text="@string/currentUdacityRepository" />
+            android:text="@string/currentUdacityRepository"
+            android:textSize="@dimen/default_text_size" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="@string/retrofitLibrary" />
+            android:text="@string/retrofitLibrary"
+            android:textSize="@dimen/default_text_size" />
     </RadioGroup>
 
     <com.udacity.LoadingButton
