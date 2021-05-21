@@ -102,6 +102,10 @@ class LoadingButton @JvmOverloads constructor(
 
     }
 
+    fun updateStatus(status: String) {
+        buttonState.status = status
+    }
+
     override fun onDraw(canvas: Canvas?) {
 
         super.onDraw(canvas)

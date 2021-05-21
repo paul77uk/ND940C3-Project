@@ -61,13 +61,16 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            if (downloadID == id) custom_button.updateStatus("Success") else custom_button.updateStatus(
+                "Fail"
+            )
         }
     }
 
     private fun download() {
 
         val request =
-            DownloadManager.Request(Uri.parse(URL))
+            DownloadManager.Request(Uri.parse(CHANNEL_ID))
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(R.string.app_description))
                 .setRequiresCharging(false)
@@ -80,9 +83,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val URL =
+        private const val GLIDE_URL =
+            "https://github.com/bumptech/glide/archive/master.zip"
+        private const val LOAD_APP_URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
-        private const val CHANNEL_ID = "channelId"
+        private const val RETROFIT_URL =
+            "https://github.com/square/retrofit/archive/master.zip"
+
+        var CHANNEL_ID = "channelId"
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -97,18 +105,21 @@ class MainActivity : AppCompatActivity() {
                         isChecked = true
                         title = getString(R.string.glideLibraryDownLoad)
                         description = getString(R.string.notification_descriptionGlide)
+                        CHANNEL_ID = GLIDE_URL
                     }
                 R.id.radioButton2 ->
                     if (checked) {
                         isChecked = true
                         title = getString(R.string.notification_title)
                         description = getString(R.string.notification_description)
+                        CHANNEL_ID = LOAD_APP_URL
                     }
                 R.id.radioButton3 ->
                     if (checked) {
                         isChecked = true
                         title = getString(R.string.retrofitLibrary)
                         description = getString(R.string.notification_descriptionRetrofit)
+                        CHANNEL_ID = RETROFIT_URL
                     }
 
             }

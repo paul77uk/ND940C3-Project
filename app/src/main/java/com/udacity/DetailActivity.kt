@@ -13,6 +13,7 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         textView3.text = ButtonState.Loading.fieName
+        textView4.text = ButtonState.Loading.status
 
         button.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
