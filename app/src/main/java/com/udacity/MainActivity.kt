@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     var title = ""
     var description = ""
 
-    private lateinit var notificationManager: NotificationManager
+    lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
     var isChecked = false
@@ -47,11 +46,11 @@ class MainActivity : AppCompatActivity() {
         custom_button.setOnClickListener {
             download()
             if (!isChecked) {
-                custom_button.updateButtonState(ButtonState.Clicked)
+                custom_button.updateButtonState(ButtonState.Clicked, title)
                 Toast.makeText(this, "Please select the file to download", LENGTH_SHORT)
                     .show()
             } else {
-                custom_button.updateButtonState(ButtonState.Loading)
+                custom_button.updateButtonState(ButtonState.Loading, title)
                 Handler().postDelayed({
                     startNotification()
                 }, 3000)
@@ -123,12 +122,12 @@ class MainActivity : AppCompatActivity() {
         // TODO: Step 1.11 create intent
         val contentIntent = Intent(applicationContext, MainActivity::class.java)
         // TODO: Step 1.12 create PendingIntent
-        val contentPendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            NOTIFICATION_ID,
-            contentIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+//        val contentPendingIntent = PendingIntent.getActivity(
+//            applicationContext,
+//            NOTIFICATION_ID,
+//            contentIntent,
+//            PendingIntent.FLAG_UPDATE_CURRENT
+//        )
 //        // TODO: Step 2.0 add style
 //        val eggImage = BitmapFactory.decodeResource(
 //            applicationContext.resources,
@@ -145,6 +144,7 @@ class MainActivity : AppCompatActivity() {
             addNextIntentWithParentStack(snoozeIntent)
             getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
         }
+
 
 //            PendingIntent.getBroadcast(
 //            applicationContext,
@@ -168,8 +168,8 @@ class MainActivity : AppCompatActivity() {
             .setContentTitle(title)
             .setContentText(messageBody)
             // TODO: Step 1.13 set content intent
-            .setContentIntent(contentPendingIntent)
-            .setAutoCancel(true)
+//            .setContentIntent(contentPendingIntent)
+//            .setAutoCancel(true)
 //            .setContentIntent(snoozePendingIntent)
 
             // TODO: Step 2.1 add style to builder
@@ -182,6 +182,7 @@ class MainActivity : AppCompatActivity() {
                 "Check the status",
                 snoozePendingIntent
             )
+            .setAutoCancel(true)
 
             // TODO: Step 2.5 set priority
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -226,7 +227,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startNotification() {
-        val notificationManager = ContextCompat.getSystemService(
+        notificationManager = ContextCompat.getSystemService(
             applicationContext,
             NotificationManager::class.java
         ) as NotificationManager
@@ -242,5 +243,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-

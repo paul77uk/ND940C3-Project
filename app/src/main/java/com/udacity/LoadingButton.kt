@@ -78,7 +78,7 @@ class LoadingButton @JvmOverloads constructor(
             duration = 3000
             start()
             postDelayed({
-                updateButtonState(ButtonState.Completed)
+                updateButtonState(ButtonState.Completed, ButtonState.Loading.fieName)
             }, duration)
         }
 
@@ -96,8 +96,9 @@ class LoadingButton @JvmOverloads constructor(
         })
     }
 
-    fun updateButtonState(state: ButtonState) {
+    fun updateButtonState(state: ButtonState, fileName: String) {
         buttonState = state
+        buttonState.fieName = fileName
 
     }
 
