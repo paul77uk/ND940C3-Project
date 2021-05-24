@@ -45,15 +45,17 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         custom_button.setOnClickListener {
-            download()
+
             if (!isChecked) {
                 custom_button.updateButtonState(ButtonState.Clicked, title, ButtonState.Loading.status)
                 Toast.makeText(this, "Please select the file to download", LENGTH_SHORT)
                     .show()
             } else {
+                download()
                 custom_button.updateButtonState(ButtonState.Loading, title, ButtonState.Loading.status)
                 Handler().postDelayed({
                     startNotification()
+
                 }, 3000)
             }
         }
