@@ -11,6 +11,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Button
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -19,7 +20,6 @@ class LoadingButton @JvmOverloads constructor(
 
     private var widthSize = 0
     private var heightSize = 0
-    private var text = "Download"
     private var progress = 0
 
     private var valueAnimator = ValueAnimator.ofFloat()
@@ -78,32 +78,17 @@ class LoadingButton @JvmOverloads constructor(
             duration = 3000
             start()
             postDelayed({
-                updateButtonState(ButtonState.Completed, ButtonState.Loading.fieName)
+                updateButtonState(ButtonState.Completed, ButtonState.Loading.fieName, ButtonState.Loading.status)
             }, duration)
         }
 
     }
 
-    private fun ObjectAnimator.disableViewDuringAnimation(view: View) {
-        addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                view.isEnabled = false
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                view.isEnabled = true
-            }
-        })
-    }
-
-    fun updateButtonState(state: ButtonState, fileName: String) {
+    fun updateButtonState(state: ButtonState, fileName: String, status: String) {
         buttonState = state
         buttonState.fieName = fileName
+        ButtonState.Loading.status = status
 
-    }
-
-    fun updateStatus(status: String) {
-        buttonState.status = status
     }
 
     override fun onDraw(canvas: Canvas?) {
