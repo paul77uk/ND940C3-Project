@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     var title = ""
     var description = ""
 
+
     lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
@@ -46,11 +47,11 @@ class MainActivity : AppCompatActivity() {
         custom_button.setOnClickListener {
             download()
             if (!isChecked) {
-                custom_button.updateButtonState(ButtonState.Clicked, title)
+                custom_button.updateButtonState(ButtonState.Clicked, title, ButtonState.Loading.status)
                 Toast.makeText(this, "Please select the file to download", LENGTH_SHORT)
                     .show()
             } else {
-                custom_button.updateButtonState(ButtonState.Loading, title)
+                custom_button.updateButtonState(ButtonState.Loading, title, ButtonState.Loading.status)
                 Handler().postDelayed({
                     startNotification()
                 }, 3000)
@@ -61,16 +62,36 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            if (downloadID == id) custom_button.updateStatus("Success") else custom_button.updateStatus(
-                "Fail"
-            )
+
+            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+
+            val query = DownloadManager.Query()
+            query.setFilterById(id!!)
+
+            val cursor = downloadManager.query(query)
+
+            if (cursor.moveToFirst()) {
+                val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+
+
+//            if (downloadID == id) custom_button.updateStatus("Success") else custom_button.updateStatus(
+//                "Fail"
+//            )
+
+                if (DownloadManager.STATUS_SUCCESSFUL == status) {
+                    custom_button.updateButtonState(ButtonState.Loading, title, "Success")
+                }
+                if (DownloadManager.STATUS_FAILED == status) {
+                    custom_button.updateButtonState(ButtonState.Loading, title, "Fail")
+                }
+            }
         }
     }
 
     private fun download() {
 
         val request =
-            DownloadManager.Request(Uri.parse(CHANNEL_ID))
+            DownloadManager.Request(Uri.parse(channelId))
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(R.string.app_description))
                 .setRequiresCharging(false)
@@ -90,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         private const val RETROFIT_URL =
             "https://github.com/square/retrofit/archive/master.zip"
 
-        var CHANNEL_ID = "channelId"
+        var channelId = ""
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -105,21 +126,21 @@ class MainActivity : AppCompatActivity() {
                         isChecked = true
                         title = getString(R.string.glideLibraryDownLoad)
                         description = getString(R.string.notification_descriptionGlide)
-                        CHANNEL_ID = GLIDE_URL
+                        channelId = GLIDE_URL
                     }
                 R.id.radioButton2 ->
                     if (checked) {
                         isChecked = true
                         title = getString(R.string.notification_title)
                         description = getString(R.string.notification_description)
-                        CHANNEL_ID = LOAD_APP_URL
+                        channelId = LOAD_APP_URL
                     }
                 R.id.radioButton3 ->
                     if (checked) {
                         isChecked = true
                         title = getString(R.string.retrofitLibrary)
                         description = getString(R.string.notification_descriptionRetrofit)
-                        CHANNEL_ID = RETROFIT_URL
+                        channelId = RETROFIT_URL
                     }
 
             }
