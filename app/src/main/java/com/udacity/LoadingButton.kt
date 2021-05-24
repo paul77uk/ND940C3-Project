@@ -69,6 +69,7 @@ class LoadingButton @JvmOverloads constructor(
 
 
     private fun scaler() {
+        //
 
         valueAnimator = ValueAnimator.ofInt(0, 720).apply {
             addUpdateListener {
