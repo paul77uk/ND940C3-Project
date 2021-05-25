@@ -1,8 +1,5 @@
 package com.udacity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -11,7 +8,6 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -21,6 +17,30 @@ class LoadingButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
     private var progress = 0
+    var bgColor = 0
+    var progColor = 0
+
+    init {
+        val typedArray = context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.LoadingButton,
+            defStyleAttr,
+            0
+        )
+
+        with(typedArray) {
+            bgColor = getColor(
+                R.styleable.LoadingButton_buttonColor,
+                resources.getColor(R.color.colorPrimary)
+            )
+            progColor = getColor(
+                R.styleable.LoadingButton_progressColor,
+                resources.getColor(R.color.colorPrimaryDark)
+            )
+        }
+
+        typedArray.recycle()
+    }
 
     private var valueAnimator = ValueAnimator.ofFloat()
 
@@ -35,15 +55,12 @@ class LoadingButton @JvmOverloads constructor(
 
     private val paint2 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = resources.getColor(R.color.colorPrimary)
-        setBackgroundColor(color)
-
+        color = bgColor
     }
 
     private val paint3 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = resources.getColor(R.color.colorPrimaryDark)
-        setBackgroundColor(color)
+        color = progColor
 
     }
 
@@ -79,7 +96,11 @@ class LoadingButton @JvmOverloads constructor(
             duration = 3000
             start()
             postDelayed({
-                updateButtonState(ButtonState.Completed, ButtonState.Loading.fieName, ButtonState.Loading.status)
+                updateButtonState(
+                    ButtonState.Completed,
+                    ButtonState.Loading.fieName,
+                    ButtonState.Loading.status
+                )
             }, duration)
         }
 

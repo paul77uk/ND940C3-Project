@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         custom_button.setOnClickListener {
 
             if (!isChecked) {
-                custom_button.updateButtonState(ButtonState.Clicked, title, ButtonState.Loading.status)
+//                custom_button.updateButtonState(ButtonState.Clicked, title, ButtonState.Loading.status)
                 Toast.makeText(this, "Please select the file to download", LENGTH_SHORT)
                     .show()
             } else {
@@ -103,17 +103,6 @@ class MainActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-    }
-
-    companion object {
-        private const val GLIDE_URL =
-            "https://github.com/bumptech/glide/archive/master.zip"
-        private const val LOAD_APP_URL =
-            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
-        private const val RETROFIT_URL =
-            "https://github.com/square/retrofit/archive/master.zip"
-
-        var channelId = ""
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -274,6 +263,17 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.notification_channel_id),
             getString(R.string.notification_channel_name)
         )
+    }
+
+    companion object {
+        private const val GLIDE_URL =
+            "https://github.com/bumptech/glide/archive/master.zip"
+        private const val LOAD_APP_URL =
+            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
+        private const val RETROFIT_URL =
+            "https://github.com/square/retrofit/archive/master.zip"
+
+        var channelId = ""
     }
 
 }

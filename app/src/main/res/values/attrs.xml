@@ -3,6 +3,6 @@
     <declare-styleable name="LoadingButton">
 <!--   TODO: create custom attributes for the view-->
         <attr name="buttonColor" format="color" />
-        <attr name="displayName" format="string" />
+        <attr name="progressColor" format="color" />
     </declare-styleable>
 </resources>

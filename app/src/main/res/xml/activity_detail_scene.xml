@@ -4,12 +4,10 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
+        motion:autoTransition="animateToEnd"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000">
-       <KeyFrameSet>
-       </KeyFrameSet>
-        <OnClick motion:targetId="@+id/textView2" />
+        motion:duration="1500">
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
@@ -43,4 +41,5 @@
                 motion:customColorValue="#FFD80909" />
         </Constraint>
     </ConstraintSet>
+
 </MotionScene>
