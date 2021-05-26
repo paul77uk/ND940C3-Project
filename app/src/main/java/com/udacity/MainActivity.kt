@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                     .show()
             } else {
                 download()
-                custom_button.updateButtonState(ButtonState.Loading, title, ButtonState.Loading.status)
+                custom_button.updateButtonState(ButtonState.Loading, title)
                 Handler().postDelayed({
                     startNotification()
 
@@ -81,10 +81,12 @@ class MainActivity : AppCompatActivity() {
 //            )
 
                 if (DownloadManager.STATUS_SUCCESSFUL == status) {
-                    custom_button.updateButtonState(ButtonState.Loading, title, "Success")
+                    custom_button.updateButtonState(ButtonState.Loading, title)
+                    custom_button.updateStatus("Success")
                 }
                 if (DownloadManager.STATUS_FAILED == status) {
-                    custom_button.updateButtonState(ButtonState.Loading, title, "Fail")
+                    custom_button.updateButtonState(ButtonState.Loading, title)
+                    custom_button.updateStatus("Fail")
                 }
             }
         }

@@ -98,19 +98,22 @@ class LoadingButton @JvmOverloads constructor(
             postDelayed({
                 updateButtonState(
                     ButtonState.Completed,
-                    ButtonState.Loading.fieName,
-                    ButtonState.Loading.status
+                    ButtonState.Loading.fieName
                 )
+                updateStatus(ButtonState.Loading.status )
             }, duration)
         }
 
     }
 
-    fun updateButtonState(state: ButtonState, fileName: String, status: String) {
+    fun updateButtonState(state: ButtonState, fileName: String) {
         buttonState = state
         buttonState.fieName = fileName
-        ButtonState.Loading.status = status
 
+    }
+
+    fun updateStatus(status: String) {
+        ButtonState.Loading.status = status
     }
 
     override fun onDraw(canvas: Canvas?) {
